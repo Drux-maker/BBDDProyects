@@ -1,0 +1,395 @@
+# 📘 PRIMER DIA DE SUBIDA(RESUMEN TODOS LOS JERCICIOS QUE HE HECHO HASTA AHORA, NO SON TODOS)  – BASES DE DATOS (SQL)
+
+**Objetivo:** Dominar consultas SQL, subconsultas, JOIN, EXISTS y lógica avanzada de bases de datos.
+**Periodo de estudio:** Entrenamiento progresivo práctico.
+
+---
+
+# 🔹 BLOQUE 1 – SELECT Y FILTRADO
+
+## 1️⃣ Mostrar nombre y salario de empleados
+
+```sql
+select nombre, salario from empleados;
+```
+
+✔ Correcto
+
+---
+
+## 2️⃣ Empleados con salario > 2500
+
+```sql
+select nombre from empleados where salario > 2500;
+```
+
+✔ Correcto
+
+---
+
+## 3️⃣ Empleados entre 30 y 40 años
+
+```sql
+select nombre from empleados where edad between 30 and 40;
+```
+
+✔ Correcto
+
+---
+
+## 4️⃣ Empleados cuyo nombre empieza por M
+
+❌ Error inicial:
+
+```sql
+where nombre (%M);
+```
+
+✔ Corrección:
+
+```sql
+where nombre like 'M%';
+```
+
+---
+
+## 5️⃣ Empleados cuyo salario no sea 3000
+
+❌ Versión mejorable:
+
+```sql
+salario!="3000"
+```
+
+✔ Corrección recomendada:
+
+```sql
+salario <> 3000;
+```
+
+---
+
+# 🔹 BLOQUE 2 – GROUP BY Y HAVING
+
+## 1️⃣ Número de empleados por departamento
+
+```sql
+select id_departamento, count(*)
+from empleados
+group by id_departamento;
+```
+
+✔ Correcto
+
+---
+
+## 2️⃣ Salario medio por departamento
+
+```sql
+select id_departamento, avg(salario)
+from empleados
+group by id_departamento;
+```
+
+✔ Correcto (ajustada posición columnas)
+
+---
+
+## 3️⃣ Departamentos con más de 3 empleados
+
+```sql
+select id_departamento
+from empleados
+group by id_departamento
+having count(*) > 3;
+```
+
+✔ Correcto
+
+---
+
+## 4️⃣ Departamentos con salario medio > 3000
+
+```sql
+select id_departamento
+from empleados
+group by id_departamento
+having avg(salario) > 3000;
+```
+
+✔ Correcto
+
+---
+
+# 🔹 BLOQUE 3 – JOIN
+
+## 1️⃣ Mostrar empleado y su departamento
+
+```sql
+select e.nombre, d.nombre_departamento
+from empleados e
+inner join departamentos d
+on e.id_departamento = d.id;
+```
+
+✔ Corrección aplicada (faltaba alias inicial)
+
+---
+
+## 2️⃣ Departamentos sin empleados
+
+```sql
+select d.nombre_departamento
+from departamentos d
+left join empleados e
+on d.id = e.id_departamento
+where e.id is null;
+```
+
+✔ Uso correcto de LEFT JOIN + IS NULL
+
+---
+
+## 3️⃣ Empleados del departamento "Ventas"
+
+```sql
+select e.nombre
+from empleados e
+inner join departamentos d
+on e.id_departamento = d.id
+where d.nombre_departamento = 'Ventas';
+```
+
+✔ Eliminado GROUP BY innecesario
+
+---
+
+# 🔹 BLOQUE 4 – SUBCONSULTAS
+
+## 1️⃣ Empleados con salario superior a la media global
+
+```sql
+select nombre
+from empleados
+where salario > (select avg(salario) from empleados);
+```
+
+✔ Correcto
+
+---
+
+## 2️⃣ Empleado con salario máximo
+
+```sql
+select nombre
+from empleados
+where salario = (select max(salario) from empleados);
+```
+
+✔ Correcto
+
+---
+
+## 3️⃣ Empleados del mismo departamento que el empleado 3
+
+```sql
+select nombre
+from empleados
+where id_departamento = (
+    select id_departamento
+    from empleados
+    where id = 3
+);
+```
+
+✔ Correcto
+
+---
+
+# 🔹 BLOQUE 5 – EXISTS Y SUBCONSULTAS CORRELACIONADAS
+
+## 1️⃣ Departamentos con empleados
+
+```sql
+select d.nombre_departamento
+from departamentos d
+where exists (
+    select *
+    from empleados e
+    where e.id_departamento = d.id
+);
+```
+
+✔ Correcto
+
+---
+
+## 2️⃣ Departamentos sin empleados
+
+```sql
+where not exists (
+    select *
+    from empleados e
+    where e.id_departamento = d.id
+);
+```
+
+✔ Correcto
+
+---
+
+## 3️⃣ Empleados que trabajan en "Ventas"
+
+```sql
+select e.nombre
+from empleados e
+where exists (
+    select *
+    from departamentos d
+    where d.id = e.id_departamento
+    and d.nombre_departamento = 'Ventas'
+);
+```
+
+✔ Subconsulta correctamente correlacionada
+
+---
+
+## 4️⃣ Empleados que NO trabajan en "Ventas"
+
+❌ Error inicial: faltaba correlación.
+
+✔ Corrección:
+
+```sql
+where not exists (
+    select *
+    from departamentos d
+    where d.id = e.id_departamento
+    and d.nombre_departamento = 'Ventas'
+);
+```
+
+---
+
+## 5️⃣ Empleados en departamentos con más de 2 empleados
+
+### Versión con GROUP BY
+
+```sql
+select e.nombre
+from empleados e
+where exists (
+    select *
+    from empleados e2
+    where e2.id_departamento = e.id_departamento
+    group by e2.id_departamento
+    having count(*) > 2
+);
+```
+
+### Versión alternativa sin GROUP BY
+
+```sql
+select e.nombre
+from empleados e
+where (
+    select count(*)
+    from empleados e2
+    where e2.id_departamento = e.id_departamento
+) > 2;
+```
+
+✔ Se aprendió diferencia de rendimiento entre ambas.
+
+---
+
+# 🔹 BLOQUE 6 – CONCEPTOS TEÓRICOS DOMINADOS
+
+✔ Diferencia BETWEEN / LIKE
+✔ Diferencia WHERE vs HAVING
+✔ Diferencia IN vs EXISTS
+✔ Subconsulta simple vs correlacionada
+✔ INNER JOIN vs LEFT JOIN
+✔ NULL se compara con IS NULL
+✔ GROUP BY agrupa filas
+✔ HAVING filtra grupos
+✔ EXISTS comprueba existencia de filas
+
+---
+
+# 🔹 BLOQUE 7 – TRATAMIENTO DE DATOS
+
+## INSERT
+
+```sql
+insert into empleados (id, nombre, salario, id_departamento)
+values (10, 'Carlos', 2800, 2);
+```
+
+## UPDATE
+
+```sql
+update empleados
+set salario = salario * 1.10
+where id_departamento = 2;
+```
+
+## DELETE
+
+```sql
+delete from empleados
+where salario < 1000;
+```
+
+---
+
+## Integridad Referencial
+
+```sql
+foreign key (id_departamento)
+references departamentos(id)
+on delete cascade;
+```
+
+✔ ON DELETE CASCADE elimina registros hijos automáticamente.
+
+---
+
+## Transacciones
+
+```sql
+start transaction;
+
+update cuentas
+set saldo = saldo - 100
+where id = 1;
+
+commit;
+```
+
+✔ COMMIT confirma
+✔ ROLLBACK deshace
+
+---
+
+# 🎯 CONCLUSIÓN FINAL
+
+Durante este entrenamiento se ha trabajado:
+
+* Consultas básicas
+* Agrupaciones
+* JOIN
+* Subconsultas
+* EXISTS
+* Optimización lógica
+* Integridad referencial
+* Tratamiento de datos
+* Transacciones
+
+Nivel alcanzado:
+SQL práctico intermedio-avanzado con dominio de lógica relacional y subconsultas correlacionadas.
+
+---
+
+📌 Documento generado como registro de progreso académico.
