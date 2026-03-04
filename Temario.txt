@@ -1,0 +1,166 @@
+🔹 ALMACENAMIENTO DE LA INFORMACIÓN
+📌 Tienes que saber:
+
+Diferencia entre:
+
+Fichero plano
+
+Base de datos
+
+Qué es un SGBD
+
+Gestiona acceso, seguridad, integridad, concurrencia
+
+Diferencia:
+
+BD centralizada vs distribuida
+
+SGBD libre vs comercial
+
+👉 Aquí suelen preguntar teoría corta tipo test.
+
+🔹 BASES DE DATOS RELACIONALES (MUY IMPORTANTE)
+📌 Modelo relacional
+
+Debes dominar:
+
+Tabla = relación
+
+Fila = tupla
+
+Columna = atributo
+
+Dominio
+
+Clave primaria
+
+Clave ajena
+
+Índices
+
+NULL
+
+🔥 Esto es base conceptual.
+
+📌 Lenguajes SQL
+
+Debes saber diferenciar:
+
+DDL → CREATE, ALTER, DROP
+
+DML → SELECT, INSERT, UPDATE, DELETE
+
+DCL → GRANT, REVOKE
+
+Pregunta típica de examen.
+
+🔹 CONSULTAS (LO MÁS IMPORTANTE DE TODO)
+
+Aquí es donde más peso tienes.
+
+Ya controlas bastante:
+
+SELECT
+
+WHERE
+
+GROUP BY
+
+HAVING
+
+ORDER BY
+
+JOIN (INNER / LEFT)
+
+Subconsultas
+
+EXISTS / IN
+
+Funciones agregadas
+
+🔥 Esto es el núcleo del examen práctico.
+
+🔹 TRATAMIENTO DE DATOS
+
+Debes saber:
+
+INSERT
+
+UPDATE
+
+DELETE
+
+Integridad referencial (ON DELETE CASCADE, etc.)
+
+Transacciones:
+
+COMMIT
+
+ROLLBACK
+
+Bloqueos
+
+⚠ Esto suele caer menos que SELECT, pero puede entrar.
+
+🔹 PROGRAMACIÓN EN BD (PL/SQL o similar)
+
+Debes conocer:
+
+Variables
+
+IF
+
+LOOP
+
+Procedimientos almacenados
+
+Funciones
+
+Triggers
+
+Cursores
+
+🔥 Esto es parte avanzada.
+No siempre entra fuerte, pero si entra, pesa.
+
+🔹 MODELO ENTIDAD-RELACIÓN (MUY IMPORTANTE)
+
+Aquí suelen preguntar bastante.
+
+Debes saber:
+
+Entidad
+
+Relación
+
+Atributo
+
+Cardinalidad (1:1, 1:N, N:M)
+
+Entidad débil
+
+Paso de E/R → Relacional
+
+Normalización:
+
+1FN
+
+2FN
+
+3FN
+
+🔥 Esto es muy examinable.
+
+🔹 BASES DE DATOS OBJETO-RELACIONALES
+
+Esto suele ser más teórico:
+
+Tipos objeto
+
+Herencia
+
+Colecciones
+
+Referencias
+
+⚠ Suele entrar poco comparado con SQL clásico.
